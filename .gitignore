@@ -1,0 +1,19 @@
+# Node
+node_modules/
+dist/
+build/
+coverage/
+
+# Env
+.env
+.env.*
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Database backups
+database/backups/*.bak

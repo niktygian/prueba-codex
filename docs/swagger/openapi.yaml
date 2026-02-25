@@ -1,0 +1,10 @@
+openapi: 3.0.3
+info:
+  title: Control360 Almacenes API
+  version: 0.1.0
+  description: |
+    Definición inicial de API. Los endpoints se completarán por partes.
+servers:
+  - url: http://localhost:4000/api
+paths: {}
+components: {}
