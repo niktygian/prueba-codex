@@ -20,13 +20,18 @@ def close_db(e=None):
         db.close()
 
 
+def _ensure_column(db, table, column, ddl):
+    cols = [r["name"] for r in db.execute(f"PRAGMA table_info({table})").fetchall()]
+    if column not in cols:
+        db.execute(f"ALTER TABLE {table} ADD COLUMN {ddl}")
+
+
 def init_schema():
     db = sqlite3.connect(DB_PATH)
+    db.row_factory = sqlite3.Row
     db.execute("PRAGMA foreign_keys = ON")
     db.executescript(
         """
-
-
         CREATE TABLE IF NOT EXISTS usuarios (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             nombre TEXT NOT NULL,
@@ -74,6 +79,7 @@ def init_schema():
             precio_estimado REAL,
             precio_final REAL,
             fecha_entrega TEXT,
+            barcode TEXT UNIQUE,
             FOREIGN KEY (equipo_id) REFERENCES equipos(id) ON DELETE CASCADE
         );
 
@@ -130,5 +136,8 @@ def init_schema():
         );
         """
     )
+
+    _ensure_column(db, "ordenes_reparacion", "barcode", "barcode TEXT UNIQUE")
+    db.execute("CREATE UNIQUE INDEX IF NOT EXISTS idx_ordenes_barcode ON ordenes_reparacion(barcode)")
     db.commit()
     db.close()

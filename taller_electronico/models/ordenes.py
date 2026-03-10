@@ -11,6 +11,10 @@ ESTADOS = [
 ]
 
 
+def _barcode_for_id(order_id):
+    return f"ORD-{order_id:06d}"
+
+
 def listar(filtro=None):
     db = get_db()
     base = """
@@ -24,10 +28,10 @@ def listar(filtro=None):
         return db.execute(
             base
             + """
-            WHERE c.nombre LIKE ? OR e.modelo LIKE ? OR o.falla_reportada LIKE ? OR CAST(o.id AS TEXT) LIKE ?
+            WHERE c.nombre LIKE ? OR e.modelo LIKE ? OR o.falla_reportada LIKE ? OR CAST(o.id AS TEXT) LIKE ? OR o.barcode LIKE ?
             ORDER BY o.id DESC
             """,
-            (q, q, q, q),
+            (q, q, q, q, q),
         ).fetchall()
     return db.execute(base + " ORDER BY o.id DESC").fetchall()
 
@@ -36,13 +40,19 @@ def obtener(orden_id):
     return get_db().execute("SELECT * FROM ordenes_reparacion WHERE id=?", (orden_id,)).fetchone()
 
 
+def obtener_por_barcode(barcode):
+    return get_db().execute(
+        "SELECT * FROM ordenes_reparacion WHERE barcode = ?", (barcode.strip().upper(),)
+    ).fetchone()
+
+
 def crear(data):
     db = get_db()
     cur = db.execute(
         """
         INSERT INTO ordenes_reparacion
-        (equipo_id, tecnico_asignado, estado, falla_reportada, diagnostico, solucion, precio_estimado, precio_final, fecha_entrega)
-        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)
+        (equipo_id, tecnico_asignado, estado, falla_reportada, diagnostico, solucion, precio_estimado, precio_final, fecha_entrega, barcode)
+        VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
         """,
         (
             data.get("equipo_id"),
@@ -54,10 +64,14 @@ def crear(data):
             data.get("precio_estimado") or None,
             data.get("precio_final") or None,
             data.get("fecha_entrega") or None,
+            None,
         ),
     )
+    order_id = cur.lastrowid
+    barcode = _barcode_for_id(order_id)
+    db.execute("UPDATE ordenes_reparacion SET barcode=? WHERE id=?", (barcode, order_id))
     db.commit()
-    return cur.lastrowid
+    return order_id
 
 
 def actualizar(orden_id, data):
@@ -81,6 +95,14 @@ def actualizar(orden_id, data):
             orden_id,
         ),
     )
+    db.commit()
+
+
+def asegurar_barcodes():
+    db = get_db()
+    rows = db.execute("SELECT id FROM ordenes_reparacion WHERE barcode IS NULL OR barcode='' ").fetchall()
+    for row in rows:
+        db.execute("UPDATE ordenes_reparacion SET barcode=? WHERE id=?", (_barcode_for_id(row["id"]), row["id"]))
     db.commit()
 
 

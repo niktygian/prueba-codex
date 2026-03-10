@@ -2,8 +2,9 @@
 {% block title %}Órdenes{% endblock %}
 {% block content %}
 <h2>Órdenes de reparación</h2>
+<p class="muted">Flujo recomendado: pegar sticker de código de barras al equipo y luego abrir siempre por escaneo.</p>
 <form method="get" class="inline-form">
-  <input type="text" name="q" placeholder="Buscar por cliente/modelo/falla/número" value="{{ q }}">
+  <input type="text" name="q" placeholder="Buscar por cliente/modelo/falla/número/barcode" value="{{ q }}">
   <button type="submit">Buscar</button>
 </form>
 <div class="grid-2">
@@ -28,12 +29,20 @@
 <section>
 <h3>Listado de órdenes</h3>
 <table>
-<tr><th>#</th><th>Cliente</th><th>Equipo</th><th>Estado</th><th>Código</th><th></th></tr>
+<tr><th>#</th><th>Cliente</th><th>Estado</th><th>Barcode</th><th>Acciones</th></tr>
 {% for o in ordenes %}
 <tr>
-<td>{{ o.id }}</td><td>{{ o.cliente_nombre }}</td><td>{{ o.tipo_equipo }} {{ o.marca }} {{ o.modelo }}</td><td><span class="badge">{{ o.estado }}</span></td>
-<td><img class="barcode-mini" src="{{ url_for('barcode_svg', value='ORD-' ~ o.id) }}" alt="barcode {{ o.id }}"></td>
-<td><a href="{{ url_for('ordenes.detalle', orden_id=o.id) }}">Abrir</a></td>
+<td>{{ o.id }}</td>
+<td>{{ o.cliente_nombre }}<br><small>{{ o.tipo_equipo }} {{ o.marca }} {{ o.modelo }}</small></td>
+<td><span class="badge">{{ o.estado }}</span></td>
+<td>
+  <strong>{{ o.barcode }}</strong><br>
+  <img class="barcode-mini" src="{{ url_for('barcode_svg', value=o.barcode) }}" alt="barcode {{ o.barcode }}">
+</td>
+<td>
+  <a href="{{ url_for('ordenes.detalle', orden_id=o.id) }}">Abrir</a><br>
+  <a href="{{ url_for('ordenes.imprimir_label', orden_id=o.id) }}" target="_blank">Imprimir sticker</a>
+</td>
 </tr>
 {% endfor %}
 </table>

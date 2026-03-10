@@ -48,3 +48,10 @@ th, td { padding: 10px; border-bottom: 1px solid #263148; text-align: left; font
   .sidebar p, .sidebar .userbox strong, .sidebar .userbox span { display: none; }
   .grid-2 { grid-template-columns: 1fr; }
 }
+
+
+.scan-form { margin: 14px 0 10px; }
+.scan-form input { font-weight: 700; letter-spacing: 0.3px; }
+.flash { padding: 10px 12px; border-radius: 10px; margin-bottom: 10px; border: 1px solid var(--border); }
+.flash-warning { background: rgba(245, 158, 11, .15); color: #fcd34d; border-color: #92400e; }
+.flash-error { background: rgba(239, 68, 68, .15); color: #fca5a5; border-color: #7f1d1d; }

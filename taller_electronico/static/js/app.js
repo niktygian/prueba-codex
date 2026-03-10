@@ -13,12 +13,12 @@ document.querySelectorAll('form').forEach((f) => {
   });
 });
 
-const barcodeBtn = document.getElementById('barcodeBtn');
-if (barcodeBtn) {
-  barcodeBtn.addEventListener('click', () => {
-    const input = document.getElementById('barcodeInput');
-    const image = document.getElementById('barcodeImage');
-    const value = (input.value || 'ORD-000001').trim();
-    image.src = `/barcode/${encodeURIComponent(value)}.svg`;
+const globalScan = document.getElementById('barcodeInputGlobal');
+if (globalScan) {
+  setTimeout(() => globalScan.focus(), 150);
+  document.addEventListener('keydown', (e) => {
+    if (!e.ctrlKey && !e.altKey && !e.metaKey && document.activeElement.tagName !== 'INPUT' && document.activeElement.tagName !== 'TEXTAREA') {
+      globalScan.focus();
+    }
   });
 }

@@ -32,6 +32,7 @@ def create_app():
 
     with app.app_context():
         auth_model.ensure_default_admin()
+        ordenes_model.asegurar_barcodes()
 
     app.teardown_appcontext(close_db)
 

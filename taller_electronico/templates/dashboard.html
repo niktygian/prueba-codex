@@ -23,14 +23,14 @@
     </table>
 </section>
 <section>
-    <h3>Generador de código de barras</h3>
-    <form class="inline-form" onsubmit="return false;">
-        <input id="barcodeInput" placeholder="Ejemplo: ORD-000123">
-        <button id="barcodeBtn" type="button">Generar</button>
-    </form>
-    <div class="barcode-preview">
-        <img id="barcodeImage" src="{{ url_for('barcode_svg', value='ORD-000001') }}" alt="Código de barras">
-    </div>
+    <h3>Operación con lector + impresora térmica</h3>
+    <ol>
+      <li>Crear orden e imprimir sticker desde “Órdenes”.</li>
+      <li>Pegar sticker al equipo físico.</li>
+      <li>Escanear en el campo lateral “Abrir orden”.</li>
+      <li>El lector abre automáticamente la orden correspondiente.</li>
+    </ol>
+    <p class="muted">Compatible con lectores USB tipo teclado (keyboard wedge) y impresión térmica vía navegador (58mm/80mm).</p>
 </section>
 </div>
 {% endblock %}

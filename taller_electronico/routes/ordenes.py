@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template, request, redirect, url_for
+from flask import Blueprint, render_template, request, redirect, url_for, flash
 from models import ordenes as ordenes_model
 from models import equipos as equipos_model
 from models import diagnosticos as diagnosticos_model
@@ -18,6 +18,26 @@ def index():
     ordenes = ordenes_model.listar(q)
     equipos = equipos_model.listar()
     return render_template("ordenes.html", ordenes=ordenes, equipos=equipos, estados=ordenes_model.ESTADOS, q=q or "")
+
+
+@bp.route("/scan", methods=["POST"])
+def scan_barcode():
+    barcode = (request.form.get("barcode") or "").strip().upper()
+    if not barcode:
+        flash("Escanea o ingresa un código de barras.", "warning")
+        return redirect(url_for("ordenes.index"))
+
+    orden = ordenes_model.obtener_por_barcode(barcode)
+    if not orden:
+        flash(f"No se encontró ninguna orden para {barcode}.", "error")
+        return redirect(url_for("ordenes.index"))
+    return redirect(url_for("ordenes.detalle", orden_id=orden["id"]))
+
+
+@bp.route("/<int:orden_id>/label")
+def imprimir_label(orden_id):
+    orden = ordenes_model.obtener(orden_id)
+    return render_template("label_orden.html", orden=orden)
 
 
 @bp.route("/<int:orden_id>", methods=["GET", "POST"])

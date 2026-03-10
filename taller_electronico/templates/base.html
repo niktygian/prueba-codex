@@ -10,7 +10,11 @@
     <div class="layout">
         <aside class="sidebar glass">
             <h1>TallerPro</h1>
-            <p class="muted">Gestión electrónica</p>
+            <p class="muted">Todo por código de barras</p>
+            <form method="post" action="{{ url_for('ordenes.scan_barcode') }}" class="scan-form">
+                <input name="barcode" id="barcodeInputGlobal" placeholder="Escanear ORD-000123" autocomplete="off">
+                <button type="submit">Abrir orden</button>
+            </form>
             <nav>
                 <a href="{{ url_for('dashboard') }}">Dashboard</a>
                 <a href="{{ url_for('clientes.index') }}">Clientes</a>
@@ -27,6 +31,13 @@
             {% endif %}
         </aside>
         <main class="main">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash flash-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
             {% block content %}{% endblock %}
         </main>
     </div>
