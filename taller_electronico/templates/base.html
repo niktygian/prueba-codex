@@ -8,8 +8,9 @@
 </head>
 <body>
     <div class="layout">
-        <aside class="sidebar">
+        <aside class="sidebar glass">
             <h1>TallerPro</h1>
+            <p class="muted">Gestión electrónica</p>
             <nav>
                 <a href="{{ url_for('dashboard') }}">Dashboard</a>
                 <a href="{{ url_for('clientes.index') }}">Clientes</a>
@@ -17,6 +18,13 @@
                 <a href="{{ url_for('ordenes.index') }}">Órdenes</a>
                 <a href="{{ url_for('inventario.index') }}">Inventario</a>
             </nav>
+            {% if session.get('user_id') %}
+            <div class="userbox">
+                <strong>{{ session.get('nombre') }}</strong>
+                <span>@{{ session.get('username') }}</span>
+                <a class="btn btn-ghost" href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
+            </div>
+            {% endif %}
         </aside>
         <main class="main">
             {% block content %}{% endblock %}

@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Dashboard{% endblock %}
 {% block content %}
-<h2>Dashboard</h2>
+<h2>Dashboard operativo</h2>
 <div class="cards">
     <div class="card"><strong>Equipos recibidos hoy</strong><p>{{ stats.equipos_hoy }}</p></div>
     <div class="card"><strong>En diagnóstico</strong><p>{{ stats.diagnostico }}</p></div>
@@ -10,6 +10,7 @@
     <div class="card"><strong>Ingresos del mes</strong><p>$ {{ '%.2f'|format(stats.ingresos_mes) }}</p></div>
 </div>
 
+<div class="grid-2">
 <section>
     <h3>Alertas de stock bajo</h3>
     <table>
@@ -21,4 +22,15 @@
         {% endfor %}
     </table>
 </section>
+<section>
+    <h3>Generador de código de barras</h3>
+    <form class="inline-form" onsubmit="return false;">
+        <input id="barcodeInput" placeholder="Ejemplo: ORD-000123">
+        <button id="barcodeBtn" type="button">Generar</button>
+    </form>
+    <div class="barcode-preview">
+        <img id="barcodeImage" src="{{ url_for('barcode_svg', value='ORD-000001') }}" alt="Código de barras">
+    </div>
+</section>
+</div>
 {% endblock %}

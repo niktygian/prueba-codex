@@ -25,6 +25,18 @@ def init_schema():
     db.execute("PRAGMA foreign_keys = ON")
     db.executescript(
         """
+
+
+        CREATE TABLE IF NOT EXISTS usuarios (
+            id INTEGER PRIMARY KEY AUTOINCREMENT,
+            nombre TEXT NOT NULL,
+            username TEXT NOT NULL UNIQUE,
+            password_hash TEXT NOT NULL,
+            rol TEXT NOT NULL DEFAULT 'tecnico',
+            activo INTEGER NOT NULL DEFAULT 1,
+            fecha_alta TEXT NOT NULL DEFAULT (datetime('now'))
+        );
+
         CREATE TABLE IF NOT EXISTS clientes (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             nombre TEXT NOT NULL,
