@@ -1,0 +1,20 @@
+:root { --bg:#f4f6f9; --card:#ffffff; --primary:#1f4d8f; --text:#1f2937; }
+*{box-sizing:border-box;font-family:Arial,sans-serif}
+body{margin:0;background:var(--bg);color:var(--text)}
+.layout{display:flex;min-height:100vh}
+.sidebar{width:220px;background:#0f172a;color:#fff;padding:20px;position:sticky;top:0;height:100vh}
+.sidebar nav{display:flex;flex-direction:column;gap:10px}
+.sidebar a{color:#cbd5e1;text-decoration:none;padding:8px;border-radius:6px}
+.sidebar a:hover{background:#1e293b;color:#fff}
+.main{flex:1;padding:24px}
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px;margin-bottom:20px}
+.card{background:var(--card);border-radius:10px;padding:14px;box-shadow:0 2px 6px rgba(0,0,0,.08)}
+.grid-2{display:grid;grid-template-columns:1fr 1fr;gap:18px}
+section{background:var(--card);padding:16px;border-radius:10px;box-shadow:0 2px 6px rgba(0,0,0,.06)}
+form{display:flex;flex-direction:column;gap:8px}
+.inline-form{display:flex;gap:8px;align-items:center;margin-bottom:12px}
+input,select,textarea,button{padding:10px;border:1px solid #d1d5db;border-radius:8px}
+button{background:var(--primary);color:#fff;border:none;cursor:pointer}
+table{width:100%;border-collapse:collapse}
+th,td{padding:8px;border-bottom:1px solid #e5e7eb;text-align:left;font-size:14px}
+@media (max-width:900px){.sidebar{width:80px}.sidebar h1{font-size:14px}.grid-2{grid-template-columns:1fr}}

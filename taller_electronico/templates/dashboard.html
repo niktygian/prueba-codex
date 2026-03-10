@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h2>Dashboard</h2>
+<div class="cards">
+    <div class="card"><strong>Equipos recibidos hoy</strong><p>{{ stats.equipos_hoy }}</p></div>
+    <div class="card"><strong>En diagnóstico</strong><p>{{ stats.diagnostico }}</p></div>
+    <div class="card"><strong>En reparación</strong><p>{{ stats.en_reparacion }}</p></div>
+    <div class="card"><strong>Listos</strong><p>{{ stats.listo }}</p></div>
+    <div class="card"><strong>Ingresos del mes</strong><p>$ {{ '%.2f'|format(stats.ingresos_mes) }}</p></div>
+</div>
+
+<section>
+    <h3>Alertas de stock bajo</h3>
+    <table>
+        <tr><th>Componente</th><th>Stock</th><th>Mínimo</th></tr>
+        {% for a in alertas %}
+        <tr><td>{{ a.nombre }}</td><td>{{ a.stock }}</td><td>{{ a.stock_minimo }}</td></tr>
+        {% else %}
+        <tr><td colspan="3">Sin alertas</td></tr>
+        {% endfor %}
+    </table>
+</section>
+{% endblock %}

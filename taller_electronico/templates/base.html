@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Taller Electrónico{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+    <div class="layout">
+        <aside class="sidebar">
+            <h1>TallerPro</h1>
+            <nav>
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('clientes.index') }}">Clientes</a>
+                <a href="{{ url_for('equipos.index') }}">Equipos</a>
+                <a href="{{ url_for('ordenes.index') }}">Órdenes</a>
+                <a href="{{ url_for('inventario.index') }}">Inventario</a>
+            </nav>
+        </aside>
+        <main class="main">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,4 @@
+__pycache__/
+*.pyc
+.venv/
+taller_electronico/taller.db

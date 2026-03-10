@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+{% block title %}Clientes{% endblock %}
+{% block content %}
+<h2>Gestión de clientes</h2>
+<form method="get" class="inline-form">
+  <input type="text" name="q" placeholder="Buscar cliente" value="{{ q }}">
+  <button type="submit">Buscar</button>
+</form>
+<div class="grid-2">
+  <section>
+    <h3>{% if cliente_editar %}Editar cliente{% else %}Nuevo cliente{% endif %}</h3>
+    <form method="post" action="{% if cliente_editar %}{{ url_for('clientes.editar', cliente_id=cliente_editar.id) }}{% else %}{{ url_for('clientes.index') }}{% endif %}">
+      <input name="nombre" placeholder="Nombre" required value="{{ cliente_editar.nombre if cliente_editar else '' }}">
+      <input name="telefono" placeholder="Teléfono" value="{{ cliente_editar.telefono if cliente_editar else '' }}">
+      <input name="whatsapp" placeholder="WhatsApp" value="{{ cliente_editar.whatsapp if cliente_editar else '' }}">
+      <input name="email" placeholder="Email" value="{{ cliente_editar.email if cliente_editar else '' }}">
+      <input name="direccion" placeholder="Dirección" value="{{ cliente_editar.direccion if cliente_editar else '' }}">
+      <textarea name="observaciones" placeholder="Observaciones">{{ cliente_editar.observaciones if cliente_editar else '' }}</textarea>
+      <button type="submit">Guardar</button>
+    </form>
+  </section>
+  <section>
+    <h3>Listado</h3>
+    <table>
+      <tr><th>Nombre</th><th>Teléfono</th><th>Email</th><th></th></tr>
+      {% for c in clientes %}
+      <tr>
+        <td>{{ c.nombre }}</td><td>{{ c.telefono }}</td><td>{{ c.email }}</td>
+        <td><a href="{{ url_for('clientes.editar', cliente_id=c.id) }}">Editar</a></td>
+      </tr>
+      {% endfor %}
+    </table>
+  </section>
+</div>
+{% if historial %}
+<section>
+  <h3>Historial de reparaciones</h3>
+  <table>
+    <tr><th>Orden</th><th>Equipo</th><th>Estado</th><th>Falla</th><th>Precio final</th></tr>
+    {% for h in historial %}
+      <tr><td>#{{ h.orden_id }}</td><td>{{ h.tipo_equipo }} {{ h.marca }} {{ h.modelo }}</td><td>{{ h.estado }}</td><td>{{ h.falla_reportada }}</td><td>{{ h.precio_final }}</td></tr>
+    {% endfor %}
+  </table>
+</section>
+{% endif %}
+{% endblock %}
