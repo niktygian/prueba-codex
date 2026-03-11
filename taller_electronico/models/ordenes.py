@@ -1,3 +1,5 @@
+from urllib.parse import quote
+
 from .db import get_db
 
 ESTADOS = [
@@ -13,6 +15,29 @@ ESTADOS = [
 
 def _barcode_for_id(order_id):
     return f"ORD-{order_id:06d}"
+
+
+def _normalizar_telefono_whatsapp(raw):
+    if not raw:
+        return ""
+    digits = "".join(ch for ch in raw if ch.isdigit())
+    if digits.startswith("00"):
+        digits = digits[2:]
+    return digits
+
+
+def whatsapp_url_para_orden(orden):
+    if not orden:
+        return None
+    destino = _normalizar_telefono_whatsapp(orden["whatsapp"] or orden["telefono"])
+    if not destino:
+        return None
+    msg = (
+        f"Hola {orden['cliente_nombre']}, actualización de tu orden {orden['barcode']}. "
+        f"Equipo: {orden['tipo_equipo']} {orden['marca']} {orden['modelo']}. "
+        f"Estado actual: {orden['estado']}."
+    )
+    return f"https://wa.me/{destino}?text={quote(msg)}"
 
 
 def listar(filtro=None):
@@ -38,6 +63,20 @@ def listar(filtro=None):
 
 def obtener(orden_id):
     return get_db().execute("SELECT * FROM ordenes_reparacion WHERE id=?", (orden_id,)).fetchone()
+
+
+def obtener_detalle(orden_id):
+    return get_db().execute(
+        """
+        SELECT o.*, e.tipo_equipo, e.marca, e.modelo, e.numero_serie, e.imei,
+               c.nombre AS cliente_nombre, c.telefono, c.whatsapp
+        FROM ordenes_reparacion o
+        JOIN equipos e ON e.id = o.equipo_id
+        JOIN clientes c ON c.id = e.cliente_id
+        WHERE o.id=?
+        """,
+        (orden_id,),
+    ).fetchone()
 
 
 def obtener_por_barcode(barcode):

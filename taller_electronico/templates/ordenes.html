@@ -1,27 +1,37 @@
 {% extends 'base.html' %}
 {% block title %}Órdenes{% endblock %}
 {% block content %}
-<h2>Órdenes de reparación</h2>
-<p class="muted">Flujo recomendado: pegar sticker de código de barras al equipo y luego abrir siempre por escaneo.</p>
-<form method="get" class="inline-form">
-  <input type="text" name="q" placeholder="Buscar por cliente/modelo/falla/número/barcode" value="{{ q }}">
+<div class="header-row">
+  <div>
+    <h2>Órdenes de reparación</h2>
+    <p class="muted">Uso recomendado: teclado/lector para navegar y mouse para ajustes puntuales de edición.</p>
+  </div>
+  <div class="shortcut-panel">
+    <span><kbd>Ctrl</kbd>+<kbd>N</kbd> nueva orden</span>
+    <span><kbd>Ctrl</kbd>+<kbd>B</kbd> buscar</span>
+  </div>
+</div>
+<form method="get" class="inline-form" id="searchFormOrdenes">
+  <input type="text" id="searchOrdenes" name="q" placeholder="Buscar por cliente/modelo/falla/número/barcode" value="{{ q }}">
   <button type="submit">Buscar</button>
 </form>
 <div class="grid-2">
 <section>
 <h3>Nueva orden</h3>
-<form method="post">
+<form method="post" id="nuevaOrdenForm">
 <select name="equipo_id" required>
   <option value="">Equipo</option>
   {% for e in equipos %}<option value="{{ e.id }}">#{{ e.id }} - {{ e.cliente_nombre }} / {{ e.tipo_equipo }} {{ e.marca }} {{ e.modelo }}</option>{% endfor %}
 </select>
-<input name="tecnico_asignado" placeholder="Técnico asignado">
+<input name="tecnico_asignado" placeholder="Técnico asignado" accesskey="t">
 <select name="estado">{% for est in estados %}<option value="{{ est }}">{{ est }}</option>{% endfor %}</select>
 <textarea name="falla_reportada" placeholder="Falla reportada"></textarea>
 <textarea name="diagnostico" placeholder="Diagnóstico técnico"></textarea>
 <textarea name="solucion" placeholder="Solución aplicada"></textarea>
-<input name="precio_estimado" type="number" step="0.01" placeholder="Precio estimado">
-<input name="precio_final" type="number" step="0.01" placeholder="Precio final">
+<div class="inline-form">
+  <input class="numpad" name="precio_estimado" type="number" step="0.01" placeholder="Precio estimado">
+  <input class="numpad" name="precio_final" type="number" step="0.01" placeholder="Precio final">
+</div>
 <input name="fecha_entrega" type="date" placeholder="Fecha de entrega">
 <button type="submit">Crear orden</button>
 </form>

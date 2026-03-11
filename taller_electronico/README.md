@@ -72,3 +72,17 @@ Aplicación web MVC para administrar clientes, equipos, órdenes de reparación,
 ## Escalabilidad futura
 - La capa de datos está aislada para migrar a PostgreSQL.
 - Arquitectura preparada para notificaciones, WhatsApp e integración móvil.
+
+
+## WhatsApp al cliente
+- En el detalle de cada orden hay botón **Enviar WhatsApp al cliente**.
+- Genera mensaje prearmado con código de orden, equipo y estado actual.
+- Usa `whatsapp` del cliente y, si está vacío, toma `telefono`.
+- Abre `wa.me` para que confirmes y envíes desde WhatsApp Web/Desktop.
+
+## Atajos de teclado y numpad
+- `Ctrl + K`: foco directo al escáner global (sidebar).
+- `Ctrl + N`: foco en formulario de nueva orden.
+- `Ctrl + B`: foco en buscador de órdenes.
+- En campos de precio/cantidad/valor (`numpad`), `Enter` pasa al siguiente campo numérico.
+- Recomendado lector con sufijo `ENTER` para abrir orden apenas escanea.

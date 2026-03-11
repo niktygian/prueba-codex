@@ -10,11 +10,12 @@
     <div class="layout">
         <aside class="sidebar glass">
             <h1>TallerPro</h1>
-            <p class="muted">Todo por código de barras</p>
-            <form method="post" action="{{ url_for('ordenes.scan_barcode') }}" class="scan-form">
-                <input name="barcode" id="barcodeInputGlobal" placeholder="Escanear ORD-000123" autocomplete="off">
+            <p class="muted">Operación rápida teclado + barcode</p>
+            <form method="post" action="{{ url_for('ordenes.scan_barcode') }}" class="scan-form" id="scanForm">
+                <input name="barcode" id="barcodeInputGlobal" placeholder="Escanear ORD-000123" autocomplete="off" data-hotkey-focus="true">
                 <button type="submit">Abrir orden</button>
             </form>
+            <p class="kbd-hint">Atajo: <kbd>Ctrl</kbd> + <kbd>K</kbd> enfoca escáner</p>
             <nav>
                 <a href="{{ url_for('dashboard') }}">Dashboard</a>
                 <a href="{{ url_for('clientes.index') }}">Clientes</a>

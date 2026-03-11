@@ -36,13 +36,13 @@ def scan_barcode():
 
 @bp.route("/<int:orden_id>/label")
 def imprimir_label(orden_id):
-    orden = ordenes_model.obtener(orden_id)
+    orden = ordenes_model.obtener_detalle(orden_id)
     return render_template("label_orden.html", orden=orden)
 
 
 @bp.route("/<int:orden_id>", methods=["GET", "POST"])
 def detalle(orden_id):
-    orden = ordenes_model.obtener(orden_id)
+    orden = ordenes_model.obtener_detalle(orden_id)
     if request.method == "POST":
         accion = request.form.get("accion")
         if accion == "actualizar_orden":
@@ -63,6 +63,7 @@ def detalle(orden_id):
     mediciones = mediciones_model.listar_por_orden(orden_id)
     inventario = componentes_model.listar_componentes()
     usados = componentes_model.componentes_usados(orden_id)
+    whatsapp_url = ordenes_model.whatsapp_url_para_orden(orden)
     return render_template(
         "diagnostico.html",
         orden=orden,
@@ -71,4 +72,5 @@ def detalle(orden_id):
         inventario=inventario,
         usados=usados,
         estados=ordenes_model.ESTADOS,
+        whatsapp_url=whatsapp_url,
     )

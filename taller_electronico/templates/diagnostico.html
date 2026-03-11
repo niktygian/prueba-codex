@@ -2,14 +2,20 @@
 {% block title %}Diagnóstico orden #{{ orden.id }}{% endblock %}
 {% block content %}
 <h2>Orden #{{ orden.id }}</h2>
-<div class="inline-form">
+<div class="inline-form wrap">
   <strong>{{ orden.barcode }}</strong>
+  <span class="muted">{{ orden.cliente_nombre }} · {{ orden.tipo_equipo }} {{ orden.marca }} {{ orden.modelo }}</span>
   <a class="btn btn-ghost" target="_blank" href="{{ url_for('ordenes.imprimir_label', orden_id=orden.id) }}">Imprimir sticker térmico</a>
+  {% if whatsapp_url %}
+  <a class="btn" target="_blank" href="{{ whatsapp_url }}">Enviar WhatsApp al cliente</a>
+  {% else %}
+  <span class="muted">Sin teléfono/WhatsApp cargado</span>
+  {% endif %}
 </div>
 <div class="barcode-preview"><img src="{{ url_for('barcode_svg', value=orden.barcode) }}" alt="Código de barras orden"></div>
 <div class="grid-2">
 <section>
-<h3>Datos generales</h3>
+<h3>Datos generales (mouse para editar)</h3>
 <form method="post">
 <input type="hidden" name="accion" value="actualizar_orden">
 <input name="tecnico_asignado" value="{{ orden.tecnico_asignado }}" placeholder="Técnico">
@@ -17,8 +23,8 @@
 <textarea name="falla_reportada" placeholder="Falla reportada">{{ orden.falla_reportada }}</textarea>
 <textarea name="diagnostico" placeholder="Diagnóstico">{{ orden.diagnostico }}</textarea>
 <textarea name="solucion" placeholder="Solución">{{ orden.solucion }}</textarea>
-<input name="precio_estimado" type="number" step="0.01" value="{{ orden.precio_estimado or '' }}" placeholder="Precio estimado">
-<input name="precio_final" type="number" step="0.01" value="{{ orden.precio_final or '' }}" placeholder="Precio final">
+<input class="numpad" name="precio_estimado" type="number" step="0.01" value="{{ orden.precio_estimado or '' }}" placeholder="Precio estimado">
+<input class="numpad" name="precio_final" type="number" step="0.01" value="{{ orden.precio_final or '' }}" placeholder="Precio final">
 <input name="fecha_entrega" type="date" value="{{ orden.fecha_entrega or '' }}">
 <button type="submit">Actualizar orden</button>
 </form>
@@ -41,7 +47,7 @@
 <select name="tipo_medicion">
 <option>voltaje</option><option>corriente</option><option>resistencia</option><option>frecuencia</option>
 </select>
-<input name="valor" type="number" step="0.001" placeholder="Valor">
+<input class="numpad" name="valor" type="number" step="0.001" placeholder="Valor">
 <input name="unidad" placeholder="Unidad (V, A, Ω, Hz)">
 <textarea name="observaciones" placeholder="Observaciones"></textarea>
 <button type="submit">Agregar</button>
@@ -59,7 +65,7 @@
   {% endif %}
 {% endfor %}
 </select>
-<input type="number" min="1" name="cantidad" value="1" required>
+<input class="numpad" type="number" min="1" name="cantidad" value="1" required>
 <button type="submit">Descontar stock</button>
 </form>
 
