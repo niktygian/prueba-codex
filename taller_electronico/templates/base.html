@@ -42,6 +42,21 @@
             {% block content %}{% endblock %}
         </main>
     </div>
+
+    <div id="keyboardHelp" class="kb-help" aria-hidden="true">
+        <div class="kb-help-card">
+            <h3>Ayuda rápida de teclado</h3>
+            <ul>
+                <li><kbd>F1</kbd> abrir/cerrar ayuda</li>
+                <li><kbd>F2</kbd> nuevo registro (foco formulario)</li>
+                <li><kbd>F3</kbd> búsqueda rápida</li>
+                <li><kbd>Enter</kbd> siguiente campo / confirmar</li>
+                <li><kbd>Esc</kbd> cancelar / volver</li>
+                <li><kbd>↑</kbd><kbd>↓</kbd> navegar filas de tabla</li>
+            </ul>
+            <button type="button" data-close="1">Cerrar</button>
+        </div>
+    </div>
     <script src="{{ url_for('static', filename='js/app.js') }}"></script>
 </body>
 </html>

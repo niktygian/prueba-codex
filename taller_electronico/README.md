@@ -81,8 +81,11 @@ Aplicación web MVC para administrar clientes, equipos, órdenes de reparación,
 - Abre `wa.me` para que confirmes y envíes desde WhatsApp Web/Desktop.
 
 ## Atajos de teclado y numpad
-- `Ctrl + K`: foco directo al escáner global (sidebar).
-- `Ctrl + N`: foco en formulario de nueva orden.
-- `Ctrl + B`: foco en buscador de órdenes.
-- En campos de precio/cantidad/valor (`numpad`), `Enter` pasa al siguiente campo numérico.
-- Recomendado lector con sufijo `ENTER` para abrir orden apenas escanea.
+- `F1`: abrir/cerrar ayuda rápida de teclado.
+- `F2`: foco en formulario de nuevo registro.
+- `F3`: foco en buscador activo.
+- `Tab` / `Shift+Tab`: navegación secuencial entre campos.
+- `Enter` / `NumpadEnter`: avanzar al siguiente campo o confirmar envío.
+- `Esc`: cancelar contexto actual (cerrar ayuda, salir de campo o volver).
+- `↑` / `↓`: navegación entre filas de tablas.
+- `numpad`: soporte natural en campos numéricos (`precio`, `cantidad`, `valor`).

@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
 {% block title %}Diagnóstico orden #{{ orden.id }}{% endblock %}
 {% block content %}
+<div class="inline-form"><a class="btn btn-ghost" data-esc-back="1" href="{{ url_for('ordenes.index') }}">← Volver a órdenes</a></div>
 <h2>Orden #{{ orden.id }}</h2>
 <div class="inline-form wrap">
   <strong>{{ orden.barcode }}</strong>

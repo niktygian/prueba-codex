@@ -66,3 +66,36 @@ kbd{background:#0b1220;border:1px solid #3b4b6b;border-bottom-width:2px;border-r
 .inline-form.wrap .btn{margin-left:auto}
 .btn{padding:9px 12px;border-radius:10px}
 @media (max-width:980px){.header-row{flex-direction:column}}
+
+
+/* Accesibilidad teclado */
+:focus-visible {
+  outline: 3px solid #f59e0b;
+  outline-offset: 2px;
+  box-shadow: 0 0 0 2px rgba(245, 158, 11, 0.35);
+}
+
+table tr[tabindex="0"] { cursor: pointer; }
+table tr[tabindex="0"]:focus-visible,
+table tr[tabindex="0"]:hover {
+  background: rgba(14, 165, 233, 0.14);
+}
+
+.kb-help {
+  position: fixed;
+  inset: 0;
+  background: rgba(2, 6, 23, 0.65);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 999;
+}
+.kb-help.open { display: flex; }
+.kb-help-card {
+  width: min(520px, 90vw);
+  background: #0f172a;
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+}
+.kb-help-card ul { margin: 10px 0 14px; padding-left: 18px; }
