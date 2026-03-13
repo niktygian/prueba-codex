@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% block title %}Dashboard{% endblock %}
+{% block content %}
+<h2>Dashboard operativo</h2>
+<div class="cards">
+    <div class="card"><strong>Equipos recibidos hoy</strong><p>{{ stats.equipos_hoy }}</p></div>
+    <div class="card"><strong>En diagnóstico</strong><p>{{ stats.diagnostico }}</p></div>
+    <div class="card"><strong>En reparación</strong><p>{{ stats.en_reparacion }}</p></div>
+    <div class="card"><strong>Listos</strong><p>{{ stats.listo }}</p></div>
+    <div class="card"><strong>Ingresos del mes</strong><p>$ {{ '%.2f'|format(stats.ingresos_mes) }}</p></div>
+</div>
+
+<div class="grid-2">
+<section>
+    <h3>Alertas de stock bajo</h3>
+    <table>
+        <tr><th>Componente</th><th>Stock</th><th>Mínimo</th></tr>
+        {% for a in alertas %}
+        <tr><td>{{ a.nombre }}</td><td>{{ a.stock }}</td><td>{{ a.stock_minimo }}</td></tr>
+        {% else %}
+        <tr><td colspan="3">Sin alertas</td></tr>
+        {% endfor %}
+    </table>
+</section>
+<section>
+    <h3>Operación con lector + impresora térmica</h3>
+    <ol>
+      <li>Crear orden e imprimir sticker desde “Órdenes”.</li>
+      <li>Pegar sticker al equipo físico.</li>
+      <li>Escanear en el campo lateral “Abrir orden”.</li>
+      <li>El lector abre automáticamente la orden correspondiente.</li>
+    </ol>
+    <p class="muted">Compatible con lectores USB tipo teclado (keyboard wedge) y impresión térmica vía navegador (58mm/80mm).</p>
+</section>
+</div>
+{% endblock %}

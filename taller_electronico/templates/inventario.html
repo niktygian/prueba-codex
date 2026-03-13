@@ -1,0 +1,43 @@
+{% extends 'base.html' %}
+{% block title %}Inventario{% endblock %}
+{% block content %}
+<h2>Inventario de componentes</h2>
+<form method="get" class="inline-form">
+  <input type="text" name="q" placeholder="Buscar componente/tipo/código SMD" value="{{ q }}">
+  <button type="submit">Buscar</button>
+</form>
+<div class="grid-2">
+<section>
+<h3>Nuevo componente</h3>
+<form method="post">
+<input name="nombre" placeholder="Nombre" required>
+<input name="tipo" placeholder="Tipo (MOSFET, IC, etc.)">
+<input name="encapsulado" placeholder="Encapsulado">
+<textarea name="descripcion" placeholder="Descripción"></textarea>
+<input name="codigo_smd" placeholder="Código SMD">
+<input name="datasheet" placeholder="URL datasheet">
+<input name="stock" type="number" min="0" value="0" placeholder="Stock inicial">
+<input name="stock_minimo" type="number" min="0" value="0" placeholder="Stock mínimo">
+<input name="ubicacion" placeholder="Ubicación">
+<input name="precio_compra" type="number" step="0.01" placeholder="Precio compra">
+<input name="proveedor" placeholder="Proveedor">
+<button type="submit">Guardar componente</button>
+</form>
+</section>
+<section>
+<h3>Listado</h3>
+<table>
+<tr><th>Componente</th><th>Tipo</th><th>Stock</th><th>Mínimo</th><th>Ubicación</th></tr>
+{% for c in componentes %}
+<tr><td>{{ c.nombre }}</td><td>{{ c.tipo }}</td><td>{{ c.stock or 0 }}</td><td>{{ c.stock_minimo or 0 }}</td><td>{{ c.ubicacion }}</td></tr>
+{% endfor %}
+</table>
+</section>
+</div>
+<section>
+<h3>Alertas</h3>
+<ul>
+{% for a in alertas %}<li>{{ a.nombre }}: stock {{ a.stock }} / mínimo {{ a.stock_minimo }}</li>{% else %}<li>Sin alertas de stock.</li>{% endfor %}
+</ul>
+</section>
+{% endblock %}

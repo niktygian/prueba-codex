@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Taller Electrónico{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+</head>
+<body>
+    <div class="layout">
+        <aside class="sidebar glass">
+            <h1>TallerPro</h1>
+            <p class="muted">Operación rápida teclado + barcode</p>
+            <form method="post" action="{{ url_for('ordenes.scan_barcode') }}" class="scan-form" id="scanForm">
+                <input name="barcode" id="barcodeInputGlobal" placeholder="Escanear ORD-000123" autocomplete="off" data-hotkey-focus="true">
+                <button type="submit">Abrir orden</button>
+            </form>
+            <p class="kbd-hint">Atajo: <kbd>Ctrl</kbd> + <kbd>K</kbd> enfoca escáner</p>
+            <nav>
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                <a href="{{ url_for('clientes.index') }}">Clientes</a>
+                <a href="{{ url_for('equipos.index') }}">Equipos</a>
+                <a href="{{ url_for('ordenes.index') }}">Órdenes</a>
+                <a href="{{ url_for('inventario.index') }}">Inventario</a>
+            </nav>
+            {% if session.get('user_id') %}
+            <div class="userbox">
+                <strong>{{ session.get('nombre') }}</strong>
+                <span>@{{ session.get('username') }}</span>
+                <a class="btn btn-ghost" href="{{ url_for('auth.logout') }}">Cerrar sesión</a>
+            </div>
+            {% endif %}
+        </aside>
+        <main class="main">
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="flash flash-{{ category }}">{{ message }}</div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    <div id="keyboardHelp" class="kb-help" aria-hidden="true">
+        <div class="kb-help-card">
+            <h3>Ayuda rápida de teclado</h3>
+            <ul>
+                <li><kbd>F1</kbd> abrir/cerrar ayuda</li>
+                <li><kbd>F2</kbd> nuevo registro (foco formulario)</li>
+                <li><kbd>F3</kbd> búsqueda rápida</li>
+                <li><kbd>Enter</kbd> siguiente campo / confirmar</li>
+                <li><kbd>Esc</kbd> cancelar / volver</li>
+                <li><kbd>↑</kbd><kbd>↓</kbd> navegar filas de tabla</li>
+            </ul>
+            <button type="button" data-close="1">Cerrar</button>
+        </div>
+    </div>
+    <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>

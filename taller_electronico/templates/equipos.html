@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+{% block title %}Equipos{% endblock %}
+{% block content %}
+<h2>Gestión de equipos</h2>
+<form method="get" class="inline-form">
+  <input type="text" name="q" placeholder="Buscar por cliente/modelo/serie/IMEI" value="{{ q }}">
+  <button type="submit">Buscar</button>
+</form>
+<div class="grid-2">
+<section>
+<h3>Registrar equipo</h3>
+<form method="post">
+<select name="cliente_id" required>
+  <option value="">Cliente</option>
+  {% for c in clientes %}<option value="{{ c.id }}">{{ c.nombre }}</option>{% endfor %}
+</select>
+<input name="tipo_equipo" placeholder="Tipo de equipo" required>
+<input name="marca" placeholder="Marca">
+<input name="modelo" placeholder="Modelo">
+<input name="numero_serie" placeholder="Número de serie">
+<input name="imei" placeholder="IMEI">
+<input name="accesorios" placeholder="Accesorios entregados">
+<input name="estado_fisico" placeholder="Estado físico">
+<textarea name="observaciones" placeholder="Observaciones"></textarea>
+<button type="submit">Guardar equipo</button>
+</form>
+</section>
+<section>
+<h3>Listado</h3>
+<table>
+<tr><th>Cliente</th><th>Equipo</th><th>Serie/IMEI</th></tr>
+{% for e in equipos %}
+<tr><td>{{ e.cliente_nombre }}</td><td>{{ e.tipo_equipo }} {{ e.marca }} {{ e.modelo }}</td><td>{{ e.numero_serie }} {{ e.imei }}</td></tr>
+{% endfor %}
+</table>
+</section>
+</div>
+{% endblock %}

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Etiqueta {{ orden.barcode }}</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 0; padding: 12px; }
+    .label { width: 58mm; border: 1px dashed #999; padding: 6px; }
+    h2 { margin: 0 0 4px; font-size: 12px; }
+    p { margin: 2px 0; font-size: 11px; }
+    img { width: 100%; background: #fff; }
+    @media print { .noprint { display: none; } body { padding: 0; } .label { border: none; } }
+  </style>
+</head>
+<body>
+  <button class="noprint" onclick="window.print()">Imprimir en térmica</button>
+  <div class="label">
+    <h2>TallerPro - Orden #{{ orden.id }}</h2>
+    <p><strong>Código:</strong> {{ orden.barcode }}</p>
+    <img src="{{ url_for('barcode_svg', value=orden.barcode) }}" alt="{{ orden.barcode }}">
+    <p>Estado: {{ orden.estado }}</p>
+    <p>Ingreso: {{ orden.fecha_ingreso }}</p>
+  </div>
+</body>
+</html>
